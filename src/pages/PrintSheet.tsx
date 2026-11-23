@@ -125,7 +125,7 @@ export default function PrintSheet({ ws }: { ws: Workspace }) {
       )}
 
       <p className="print-foot">
-        Bằng chứng tự động: Đúng {countCorrectSteps(ws)}/{ch.steps.length} mốc trạng thái. Trace Challenge – Dự đoán đường đi của thuật toán (Biện pháp 02).
+        Bằng chứng tự động: Đúng {countCorrectSteps(ws)}/{ch.steps.length} mốc trạng thái. Trace Challenge – Dự đoán đường đi của thuật toán (Biện pháp 02) · Giáo viên: Trần Thị Kim Thoa – Trường THPT Hoàng Diệu, thành phố Cần Thơ.
       </p>
     </article>
   );

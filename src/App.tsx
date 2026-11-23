@@ -1,5 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { registerSW } from 'virtual:pwa-register';
+import { AUTHOR_INFO, clearAuthSession, isAuthenticated } from './auth';
+import LoginGate from './components/LoginGate';
 import { useApp } from './ctx';
 import { useRoute } from './router';
 import { TabId } from './validate';
@@ -8,10 +10,12 @@ import Challenges from './pages/Challenges';
 import ChallengeEditor from './pages/ChallengeEditor';
 import WorkspacePage from './pages/Workspace';
 import PrintDocs, { ChallengeHandout } from './pages/PrintDocs';
+import Author from './pages/Author';
 
 const TAB_IDS: TabId[] = ['predict', 'trace', 'reflect', 'export', 'grade'];
 
 export default function App() {
+  const [authed, setAuthed] = useState<boolean>(() => isAuthenticated());
   const { parts, query } = useRoute();
   const { prefs, setPrefs, needRefresh, applyUpdate, registerUpdate, toast } = useApp();
   const [a, b, c] = parts;
@@ -31,6 +35,10 @@ export default function App() {
     });
   }, [registerUpdate, toast]);
 
+  if (!authed) {
+    return <LoginGate onSuccess={() => setAuthed(true)} />;
+  }
+
   let page;
   if (a === 'ws' && b) {
     const tab = (TAB_IDS.includes(c as TabId) ? c : 'predict') as TabId;
@@ -43,9 +51,16 @@ export default function App() {
     page = <Challenges />;
   } else if (a === 'print') {
     page = <PrintDocs />;
+  } else if (a === 'author') {
+    page = <Author />;
   } else {
     page = <Home />;
   }
+
+  const handleLogout = () => {
+    clearAuthSession();
+    setAuthed(false);
+  };
 
   return (
     <>
@@ -61,10 +76,14 @@ export default function App() {
       </a>
       <header className="top no-print">
         <a className="brand" href="#/">
-          <span className="brand-mark" aria-hidden="true">
-            ◈
-          </span>{' '}
-          Trace Challenge
+          <img
+            src={AUTHOR_INFO.logoUrl}
+            alt=""
+            className="brand-logo"
+            width={32}
+            height={32}
+          />
+          <span>Trace Challenge</span>
         </a>
         <nav aria-label="Điều hướng chính">
           <a href="#/" aria-current={!a ? 'page' : undefined}>
@@ -75,6 +94,9 @@ export default function App() {
           </a>
           <a href="#/print" aria-current={a === 'print' ? 'page' : undefined}>
             Tài liệu in &amp; Thẻ vết
+          </a>
+          <a href="#/author" aria-current={a === 'author' ? 'page' : undefined}>
+            Tác giả
           </a>
         </nav>
         <div className="modes">
@@ -104,6 +126,9 @@ export default function App() {
             />
             <span>Chữ lớn (Chiếu)</span>
           </label>
+          <button type="button" className="btn small logout-btn" onClick={handleLogout}>
+            Đăng xuất
+          </button>
         </div>
       </header>
 
@@ -121,7 +146,12 @@ export default function App() {
       </main>
 
       <footer className="foot no-print">
-        <strong>Trace Challenge – Dự đoán đường đi của thuật toán</strong> (Biện pháp 02 · Tin học 10: Rẽ nhánh, Vòng lặp · Tin học 11 CS: Tìm kiếm, Sắp xếp). Ứng dụng đối chiếu dự đoán của học sinh với bảng vết chuẩn do giáo viên biên soạn; không tuyên bố phân tích tự động mọi chương trình Python bất kỳ. Dữ liệu lưu cục bộ trên trình duyệt; hãy tải file sao lưu (.json) hoặc xuất Word (.docx) trước khi đóng trình duyệt ở máy phòng tin dùng chung.
+        <div>
+          <strong>Trace Challenge – Dự đoán đường đi của thuật toán</strong> (Biện pháp 02 · Tin học 10: Rẽ nhánh, Vòng lặp · Tin học 11 CS: Tìm kiếm, Sắp xếp). Ứng dụng đối chiếu dự đoán của học sinh với bảng vết chuẩn do giáo viên biên soạn; không tuyên bố phân tích tự động mọi chương trình Python bất kỳ.
+        </div>
+        <div className="foot-author">
+          Giáo viên: <strong>{AUTHOR_INFO.name}</strong> · <strong>{AUTHOR_INFO.school}</strong> · Địa chỉ: {AUTHOR_INFO.address}
+        </div>
       </footer>
     </>
   );

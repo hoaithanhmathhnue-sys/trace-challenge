@@ -216,13 +216,13 @@ export async function buildDocx(ws: Workspace): Promise<Blob> {
 
   kids.push(
     para(
-      `Tổng kết tự động trên bảng vết: Đúng ${countCorrectSteps(ws)}/${ch.steps.length} mốc trạng thái. Công cụ đối chiếu với bảng vết chuẩn do giáo viên biên soạn.`,
+      `Tổng kết tự động trên bảng vết: Đúng ${countCorrectSteps(ws)}/${ch.steps.length} mốc trạng thái. Giáo viên: Trần Thị Kim Thoa – Trường THPT Hoàng Diệu (Số 1 Mạc Đĩnh Chi, phường Phú Lợi, thành phố Cần Thơ).`,
       { italics: true, size: 20 },
     ),
   );
 
   const doc = new Document({
-    creator: 'Trace Challenge',
+    creator: 'Trần Thị Kim Thoa - Trace Challenge',
     title: cleanXml(`Phiếu Trace Challenge – ${ws.studentCode || ch.title}`),
     sections: [
       {

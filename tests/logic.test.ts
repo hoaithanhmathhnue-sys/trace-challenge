@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { AUTHOR_INFO, sha256, stripVN, verifyLogin } from '../src/auth';
 import { BUILT_IN_CHALLENGES } from '../src/challenges';
 import {
   countCorrectSteps,
@@ -114,5 +115,14 @@ describe('Trace Challenge – Kiểm thử nghiệp vụ Biện pháp 02', () =>
       expect(imp.ok).toBe(true);
       expect(store.reconcile().length).toBe(2);
     }
+  });
+
+  it('7. Cổng đăng nhập SHA-256 và thông tin Tác giả', () => {
+    expect(sha256('abc')).toBe('ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
+    expect(stripVN('  Trần Thị   Kim Thoa ')).toBe('tran thi kim thoa');
+    expect(verifyLogin('Trần Thị Kim Thoa', '12345').ok).toBe(true);
+    expect(verifyLogin('tran thi kim thoa', '12345').ok).toBe(true);
+    expect(verifyLogin('Trần Thị Kim Thoa', 'wrong').ok).toBe(false);
+    expect(AUTHOR_INFO.school).toBe('Trường THPT Hoàng Diệu');
   });
 });

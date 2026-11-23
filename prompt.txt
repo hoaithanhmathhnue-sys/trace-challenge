@@ -1,0 +1,283 @@
+PROMPT TẠO WEB APP "TRACE CHALLENGE – DỰ ĐOÁN ĐƯỜNG ĐI CỦA THUẬT TOÁN"
+======================================================================
+(Webapp bổ trợ Biện pháp 02 – Tin học 10: Rẽ nhánh, Vòng lặp & Tin học 11 CS: Tìm kiếm, Sắp xếp)
+
+CÁCH DÙNG
+- Dán toàn bộ nội dung tệp này vào Claude Code, Cursor, Gemini, ChatGPT hoặc công cụ AI lập trình hỗ trợ tạo dự án nhiều tệp.
+- Yêu cầu AI tạo đầy đủ cấu trúc dự án Vite + React 19 + TypeScript, chạy kiểm thử đơn vị (`npm test`) và đóng gói (`npm run build`) để sẵn sàng đẩy lên GitHub và triển khai (deploy) qua Vercel.
+
+----------------------------------------------------------------------
+BẮT ĐẦU PROMPT
+----------------------------------------------------------------------
+
+Bạn là Kỹ sư Phần mềm Full-stack cao cấp kiêm Chuyên gia Thiết kế Học liệu số môn Tin học THPT (Chương trình GDPT 2018 – Sách Kết nối tri thức với cuộc sống). Hãy xây dựng hoàn chỉnh một web app giáo dục chạy hoàn toàn trên trình duyệt có tên:
+
+**"Trace Challenge – Dự đoán đường đi của thuật toán"**
+
+Ứng dụng này là sản phẩm phần mềm bổ trợ trực tiếp cho **Biện pháp 02**: *"Sử dụng thử thách dự đoán trạng thái biến nhằm phát triển tư duy thuật toán trong dạy học lập trình Tin học THPT"*, áp dụng cho:
+- **Tin học 10 (Trọng tâm Bài 19, 20, 21 – Kết nối tri thức)**: Câu lệnh rẽ nhánh (`if-else`) và câu lệnh lặp (`for` với `range()`, `while`).
+- **Tin học 11 định hướng Khoa học máy tính (CS)**: Dự đoán đường đi của thuật toán Tìm kiếm nhị phân (Binary Search) và Sắp xếp chọn (Selection Sort).
+
+---
+
+## 1. MỤC TIÊU SƯ PHẠM VÀ NGUYÊN TẮC NGHIỆP VỤ CỐT LÕI (BẮT BUỘC TUÂN THỦ)
+
+1.1. **Giải quyết nỗi đau thực tiễn**: Học sinh đọc được từng dòng lệnh Python nhưng khó hình dung giá trị biến thay đổi qua thời gian; nếu cho chạy mã ngay hoặc xem đáp án ngay, giáo viên không biết học sinh hiểu bản chất phép gán/vòng lặp hay chỉ ghi nhớ kết quả.
+1.2. **Quy trình 6 bước có kiểm soát**:
+   - **Bước 1 (Chọn đoạn mã)**: Giáo viên chọn đoạn mã ngắn 4–8 dòng chỉ dùng lệnh đã học, quy định rõ thời điểm đo (ví dụ: ngay sau lệnh gán trong thân vòng lặp, tránh nhầm giá trị trước và sau) và các mốc điểm dừng.
+   - **Bước 2 (Dự đoán cá nhân – Phiếu A)**: Học sinh tự điền bảng trạng thái biến tại từng điểm dừng, dự đoán kết quả đầu ra cuối cùng (`print`), đánh dấu bước dễ nhầm và ghi lí do/quy tắc thực hiện lệnh trước khi chạy.
+   - **Bước 3 (Trao đổi cặp)**: Hai học sinh so sánh bảng, đánh dấu (khoanh) bước có kết quả dự đoán khác nhau, giữ lại hai dự đoán khác nhau và cùng ghi lí giải trước khi mở vết.
+   - **Bước 4 (Quan sát có kiểm soát – Mở vết từng bước)**: Học sinh hoặc giáo viên lật mở từng trạng thái một theo thứ tự; đối chiếu ngay với dự đoán ban đầu sau mỗi bước.
+   - **Bước 5 (Sửa cách hiểu – Phiếu B)**: Học sinh xác định chính xác **bước đầu tiên có sai lệch**, tự sửa lại bảng ở khu vực sửa lỗi và viết một câu giải thích nguyên nhân (hoặc nếu dự đoán ban đầu hoàn toàn đúng thì kiểm tra vết và giải thích vì sao không có bước sai, không bắt buộc tạo lỗi giả).
+   - **Bước 6 (Vận dụng)**: Thay đổi một giá trị đầu vào hoặc cận lặp (ví dụ đổi `range(1, 4)` thành `range(1, 5)` hoặc `range(2, 5)`); học sinh dự đoán độc lập dãy trạng thái mới và đầu ra mới trước khi bấm kiểm tra.
+1.3. **Năm ràng buộc sư phạm nghiêm ngặt (Không được vi phạm)**:
+   - **Ràng buộc 1 – Không lộ đáp án trước giai đoạn dự đoán**: Tuyệt đối không hiển thị bảng vết chuẩn hay đáp án đầu ra khi học sinh chưa điền đủ và bấm **"Khóa bảng dự đoán"**. Trước khi mở vết, hệ thống chỉ cung cấp **Câu hỏi gợi ý định hướng** (ví dụ: *"Lệnh gán này dùng giá trị cũ hay mới?"*, *"Cận cuối có được tạo không?"*) thay vì tiết lộ đáp án.
+   - **Ràng buộc 2 – Giữ nguyên dự đoán ban đầu làm bằng chứng**: Khi học sinh đã bấm **"Khóa bảng dự đoán"** để chuyển sang mở vết, toàn bộ dữ liệu dự đoán ban đầu ở Phiếu A được đóng dấu thời gian (`lockedAt`) và chuyển sang chế độ chỉ đọc (không sửa đè lên dự đoán gốc). Mọi chỉnh sửa sau khi xem vết được ghi riêng ở Phiếu B (`correctedValues`).
+   - **Ràng buộc 3 – Trung thực về phạm vi kỹ thuật**: Ứng dụng đối chiếu dự đoán của học sinh với bảng vết chuẩn được biên soạn có kiểm soát (7 bài mẫu dựng sẵn + bài do giáo viên tự soạn), ghi rõ ở chân trang và tài liệu là *"không tuyên bố phân tích tự động mọi chương trình Python bất kỳ"*.
+   - **Ràng buộc 4 – Bảo vệ dữ liệu học sinh**: Không yêu cầu đăng nhập tài khoản, không thu thập họ tên đầy đủ hay thông tin nhạy cảm. Nhãn ô nhập ghi rõ **"Mã học sinh ẩn danh"** (ví dụ: `HS05-10A1`), có hàm phát hiện và cảnh báo nếu người dùng vô tình gõ email hoặc số điện thoại.
+   - **Ràng buộc 5 – Trung thực số liệu thực nghiệm (Mẫu tổng hợp sau dạy)**: Trong bảng **Mẫu tổng hợp sau dạy** dành cho giáo viên, khi chưa có phiếu thực nghiệm hợp lệ trên máy, các ô số liệu phải để trống `[   ]` (ghi rõ: *"Không điền số liệu khi chưa thực hiện"*). Khi giáo viên nạp các tệp `.json` bài làm thật của lớp, hệ thống mới thống kê tự động từ các phiếu đó.
+
+---
+
+## 2. RÀNG BUỘC KỸ THUẬT & KIẾN TRÚC TRIỂN KHAI (GITHUB & VERCEL)
+
+- **Công nghệ**: Vite + React 19 + TypeScript (`strict: true`).
+- **Không phụ thuộc máy chủ (Zero-Backend)**: Chạy 100% phía trình duyệt, không cần biến môi trường, không gọi API ngoài.
+- **Điều hướng**: Hash Router tự viết (`#/`, `#/challenges`, `#/challenges/edit/:id`, `#/challenges/print/:id`, `#/ws/:id/:tab`, `#/print`) để chạy mượt trên Vercel tĩnh và khi offline mà không cần cấu hình rewrite phức tạp.
+- **Lưu trữ bền vững & Chống mất dữ liệu**:
+  - Lưu vào `localStorage` với tiền tố khóa `tc.v1.` (`tc.v1.index`, `tc.v1.challenges`, `tc.v1.prefs`, `tc.v1.ws.<id>`).
+  - Có lớp `MemoryKV` dự phòng tự động khi trình duyệt ở chế độ riêng tư hoặc phòng máy chặn `localStorage` (kèm thanh cảnh báo nhắc tải file sao lưu `.json`).
+  - Tự lưu gộp (debounce `450ms`) khi gõ và lưu tức thì khi ẩn/đóng trang (`visibilitychange`, `pagehide`).
+  - Chống ghi đè khi mở 2 tab cùng lúc bằng số phiên bản `rev` và sự kiện `storage`: nếu tab khác vừa lưu bản mới hơn, hiện thanh cảnh báo cho chọn *"Tải bản mới"* hoặc *"Ghi đè bằng bản ở tab này"*.
+  - Hàm `reconcile()` tự chữa lành chỉ mục từ các khóa `tc.v1.ws.*` trên đĩa.
+- **Hỗ trợ Offline (PWA)**: Tích hợp `vite-plugin-pwa` với `registerType: 'prompt'` (chỉ cập nhật khi người dùng bấm nút, không tự tải lại trang làm mất chữ đang gõ).
+- **Xuất học liệu đa định dạng**:
+  - Xuất file Word (`.docx`) chuẩn phông `Times New Roman` bằng thư viện `docx` được nạp muộn (`dynamic import` để gói JS ban đầu nhẹ ~100 KB gzip).
+  - In trực tiếp ra giấy A4 / PDF qua CSS `@media print` (gồm cả bản in phiếu học tập đã làm, Phiếu A/B trắng, Rubric 10 điểm, Mẫu tổng hợp sau dạy và **Bộ thẻ vết cắt rời để úp–lật khi thiếu máy tính**).
+  - Xuất và nhập hàng loạt file sao lưu `.json` (giới hạn `1 MB`, làm sạch dữ liệu đầu vào, luôn tạo bản ghi mới khi nhập để không ghi đè mất bài cũ).
+- **Khả năng tiếp cận & Tiện ích lớp học**:
+  - Hỗ trợ điều hướng bàn phím: dùng phím mũi tên `← / →` chuyển tab, nhấn phím `Space` hoặc `Enter` ở màn hình Mở vết để lật mở bước tiếp theo.
+  - Có công tắc **"Chữ lớn (Chiếu)"** (`html[data-projector='1']` tăng cỡ chữ lên `22px` để chiếu máy chiếu cuối lớp đọc rõ).
+  - Có công tắc **"Hỗ trợ cột biến"** (Scaffolding cho nhóm học sinh cần hỗ trợ: giải thích rõ ý nghĩa từng cột như `i`, `tong trước`, `tong sau`).
+  - Có công tắc **"Chế độ giáo viên"** (mở khóa bảng chấm Rubric 10 điểm, ghi chú sư phạm, xem trước bảng vết chuẩn trong thư viện).
+- **Cổng đăng nhập phía trình duyệt (`src/auth.ts` & `src/components/LoginGate.tsx`)**:
+  - Tạo màn hình đăng nhập xuất hiện trước khi vào ứng dụng (**tuyệt đối không hiển thị sẵn tên đăng nhập và mật khẩu trên giao diện**).
+  - Tài khoản đăng nhập:
+    - Tên đăng nhập: `Trần Thị Kim Thoa` (chuẩn hóa bằng `stripVN` nên nhập có dấu hay không dấu, chữ hoa hay chữ thường đều hợp lệ)
+    - Mật khẩu: `12345`
+  - Không lưu mật khẩu dạng chữ rõ trong mã nguồn: dùng hàm băm `sha256` thuần TypeScript/JS tính mã băm của chuỗi `'tracechallenge:v1:' + stripVN(user) + ':' + pass` và so khớp với hằng số `AUTH_HASH = 'e6ecd4e16541c28f7b6dafe29d82a3020b30b7a719869e2e9d814f2118bc52e3'`.
+  - Lưu phiên đăng nhập vào `sessionStorage` (`tc.v1.auth`), có nút **"Đăng xuất"** trên thanh Header và khóa tạm thời vài giây nếu nhập sai liên tiếp từ 4 lần trở lên.
+- **Mục Tác giả & Thông tin đơn vị (`src/pages/Author.tsx` & `Home.tsx`)**:
+  - Sử dụng ảnh chân dung `/avatar.jpg` và biểu trưng `/logo.jpg` trong thư mục `public/`.
+  - Hiển thị trang trọng thông tin tác giả tại màn hình đăng nhập, khối Tác giả ở Trang chủ, trang riêng `#/author` trên thanh điều hướng, chân trang (Footer) và trên bản in A4 / file Word (`.docx`):
+    - Giáo viên: **Trần Thị Kim Thoa**
+    - Trường: **Trường THPT Hoàng Diệu**
+    - Địa chỉ: **Số 1 Mạc Đĩnh Chi, phường Phú Lợi, thành phố Cần Thơ**
+- **Cấu hình `vercel.json`**: Khai báo sẵn CSP (`Content-Security-Policy`), `X-Content-Type-Options: nosniff`, `Referrer-Policy: no-referrer`, `X-Frame-Options: DENY` và cache bất biến cho `/assets/*`.
+
+---
+
+## 3. CẤU TRÚC THƯ MỤC DỰ ÁN
+
+```
+trace-challenge/
+  index.html
+  package.json
+  tsconfig.json
+  vite.config.ts
+  vercel.json
+  .gitignore
+  README.md
+  docs/
+    KIEN-TRUC.md
+  public/
+    favicon.svg
+    logo.jpg
+    avatar.jpg
+  src/
+    vite-env.d.ts
+    main.tsx
+    App.tsx
+    index.css
+    auth.ts              # Cổng xác thực SHA-256 (không lưu mật khẩu chữ rõ) & hằng số AUTHOR_INFO
+    text.ts              # Chuẩn hóa chuỗi, so khớp giá trị vết (normalizeTraceVal, isValueMatch), phát hiện PII, cleanXml
+    guard.ts             # Chống bấm đúp nút Xóa trong 700ms
+    download.ts          # Tải Blob (.docx) và Text (.json)
+    router.ts            # Hash router gọn nhẹ
+    model.ts             # Kiểu dữ liệu Challenge, TraceStepSpec, Workspace, hàm đối chiếu vết & làm sạch dữ liệu
+    rubric.ts            # Rubric 10 điểm (4 + 2 + 2 + 2) và hàm gợi ý điểm tự động từ kết quả đối chiếu
+    challenges.ts        # 7 bài tập mẫu dựng sẵn (Tin 10 & Tin 11 CS) + hàm tạo bài mới
+    storage.ts           # Quản lý localStorage, MemoryKV, reconcile(), xuất/nhập JSON
+    ctx.tsx              # AppProvider (prefs, toasts có nút Hoàn tác 8 giây, PWA update)
+    useWorkspace.ts      # Hook tự lưu debounce 450ms + xử lý xung đột đa tab
+    validate.ts          # Kiểm tra điều kiện khóa dự đoán (checkReadyToLockPrediction) & kiểm tra điền đủ trường
+    exportDocx.ts        # Xuất phiếu học tập đầy đủ ra file Word (.docx)
+    components/
+      ui.tsx             # TextInput, TextArea, SelectField, CodeBlock (đánh số dòng + highlight dòng đang xét), Badges
+      LoginGate.tsx      # Màn hình đăng nhập (không hiển thị user/pass) kèm thẻ thông tin Tác giả
+    pages/
+      Home.tsx           # Trang chủ: bắt đầu nhanh, danh sách phiếu, Mẫu tổng hợp sau dạy (Mục 7) & Thẻ Tác giả
+      Author.tsx         # Trang Hồ sơ Tác giả & Giới thiệu quy trình sư phạm Biện pháp 02
+      Challenges.tsx     # Màn hình 1: Thư viện 7 bài mẫu + lọc theo chủ đề + nút tạo phiếu / in thẻ vết
+      ChallengeEditor.tsx# Trình soạn thảo bài tập mới cho giáo viên
+      Workspace.tsx      # Khung làm bài của học sinh (điều phối các bước)
+      PrintSheet.tsx     # Bản in A4 của một phiếu bài làm
+      PrintDocs.tsx      # Trang in Phiếu A/B trắng, Rubric 10 điểm, Mẫu tổng hợp & Bộ thẻ vết cắt rời úp–lật
+      ws/
+        Predict.tsx      # Bước 1: Điền bảng dự đoán, bật câu hỏi gợi ý, trao đổi cặp & Khóa dự đoán (Phiếu A)
+        TraceView.tsx    # Bước 2: Xem từng trạng thái (Mở vết tuần tự bằng chuột/bàn phím, phát hiện bước sai đầu tiên)
+        Reflect.tsx      # Bước 3: Sửa bước sai đầu tiên, giải thích nguyên nhân & Làm bài Vận dụng (Phiếu B)
+        ExportTab.tsx    # Bước 4: Tổng hợp bằng chứng & Xuất Word / In A4 / Tải JSON
+        Grade.tsx        # Bước 5: Chấm điểm theo Rubric 10 điểm (dành cho Giáo viên)
+  tests/
+    logic.test.ts        # Bộ kiểm thử đơn vị bằng Vitest
+```
+
+---
+
+## 4. ĐẶC TẢ 7 BÀI TẬP MẪU DỰNG SẴN (`src/challenges.ts`)
+
+Cài đặt đầy đủ 7 bài tập mẫu sau (mỗi bài gồm: mã Python, mục đích, quy tắc thời điểm đo, danh sách cột biến kèm gợi ý hỗ trợ, các mốc điểm dừng kèm giá trị chuẩn + câu hỏi gợi ý không lộ đáp án + giải thích sau khi mở, đầu ra chuẩn, câu hỏi vận dụng khi thay đổi đầu vào và ghi chú sư phạm cho giáo viên):
+
+1. **Bài 1 (`tc-for-sum-14`) – Mẫu chuẩn Tiết 1 / Đề Trước (Tin 10 Bài 20–21)**:
+   - Mã Python:
+     ```python
+     tong = 0
+     for i in range(1, 4):
+         tong = tong + i
+     print(tong)
+     ```
+   - Cột biến: `i`, `tong trước`, `tong sau`.
+   - 4 mốc điểm dừng:
+     - Mốc 0 (Trước vòng lặp, dòng 1): `i = -`, `tong trước = -`, `tong sau = 0`
+     - Mốc 1 (Sau lượt 1, dòng 3): `i = 1`, `tong trước = 0`, `tong sau = 1`
+     - Mốc 2 (Sau lượt 2, dòng 3): `i = 2`, `tong trước = 1`, `tong sau = 3`
+     - Mốc 3 (Sau lượt 3, dòng 3): `i = 3`, `tong trước = 3`, `tong sau = 6`
+   - Đầu ra chuẩn: `6` (giải thích `range(1, 4)` tạo `1, 2, 3`, dừng trước cận trên `4`; `print(tong)` nằm ngoài vòng lặp nên chỉ in giá trị cuối `6`).
+   - Vận dụng: Thay `range(1, 4)` bằng `range(1, 5)` → dãy `tong sau` là `1, 3, 6, 10`, đầu ra mới là `10`.
+
+2. **Bài 2 (`tc-for-prod-14`) – Mẫu chuẩn Tiết 2 (Tin 10 Bài 20–21)**:
+   - Mã Python:
+     ```python
+     s = 1
+     for i in range(1, 4):
+         s = s * i
+     print(s)
+     ```
+   - Cột biến: `i`, `s trước`, `s sau`.
+   - 4 mốc điểm dừng: Mốc 0 (`-, -, 1`), Mốc 1 (`1, 1, 1`), Mốc 2 (`2, 1, 2`), Mốc 3 (`3, 2, 6`). Đầu ra chuẩn: `6`.
+   - Vận dụng: Đổi `range(1, 4)` thành `range(2, 5)` → dãy `s sau` mỗi lượt là `2, 6, 24`, đầu ra mới là `24`.
+
+3. **Bài 3 (`tc-for-sum-25`) – Đề đánh giá Sau tác động (Tin 10 Bài 20–21)**:
+   - Mã Python:
+     ```python
+     s = 0
+     for i in range(2, 5):
+         s = s + i
+     print(s)
+     ```
+   - Cột biến: `i`, `s trước`, `s sau`.
+   - 4 mốc điểm dừng: Mốc 0 (`-, -, 0`), Mốc 1 (`2, 0, 2`), Mốc 2 (`3, 2, 5`), Mốc 3 (`4, 5, 9`). Đầu ra chuẩn: `9`.
+   - Vận dụng: Thay `range(2, 5)` bằng `range(2, 6)` → vết mới `2, 5, 9, 14`, đầu ra `14`.
+
+4. **Bài 4 (`tc-branch-xy`) – Tin 10 Bài 19 (Câu lệnh rẽ nhánh `if` liên tiếp)**:
+   - Mã Python:
+     ```python
+     x = 5
+     y = 3
+     if x > y:
+         x = x - y
+     if x < y:
+         y = y + x
+     else:
+         y = y - x
+     print(x, y)
+     ```
+   - Cột biến: `Điều kiện đúng/sai`, `x`, `y`.
+   - 3 mốc điểm dừng: Mốc 0 khởi tạo (`-, 5, 3`), Mốc 1 sau `if x > y` (`Đúng, 2, 3`), Mốc 2 xét `if x < y` với giá trị `x` mới là `2 < 3` (`Đúng, 2, 5`). Đầu ra chuẩn: `2 5`.
+   - Vận dụng: Thay đầu vào `x = 4, y = 4` → đầu ra mới `4 0`.
+
+5. **Bài 5 (`tc-while-step`) – Tin 10 Bài 21 (Vòng lặp `while` và biến đếm)**:
+   - Mã Python:
+     ```python
+     n = 7
+     dem = 0
+     while n > 1:
+         n = n - 2
+         dem = dem + 1
+     print(n, dem)
+     ```
+   - Cột biến: `n trước lượt`, `n sau lượt`, `dem sau lượt`.
+   - 4 mốc điểm dừng: Mốc 0 (`-, 7, 0`), Mốc 1 (`7, 5, 1`), Mốc 2 (`5, 3, 2`), Mốc 3 (`3, 1, 3`). Đầu ra chuẩn: `1 3`.
+   - Vận dụng: Thay `n = 7` bằng `n = 8` → dãy `n sau` là `6, 4, 2, 0`, đầu ra mới `0 4`.
+
+6. **Bài 6 (`tc-bin-search`) – Tin 11 CS (Thuật toán Tìm kiếm nhị phân)**:
+   - Mã Python:
+     ```python
+     a = [2, 5, 8, 12, 16, 23, 38]
+     k = 23
+     left, right = 0, 6
+     while left <= right:
+         mid = (left + right) // 2
+         if a[mid] == k: break
+         elif a[mid] < k: left = mid + 1
+         else: right = mid - 1
+     print(mid)
+     ```
+   - Cột biến: `mid`, `a[mid]`, `left sau lượt`, `right sau lượt`.
+   - 3 mốc điểm dừng: Mốc 0 (`-, -, 0, 6`), Mốc 1 (`3, 12, 4, 6`), Mốc 2 (`5, 23, 4, 6`). Đầu ra chuẩn: `5`.
+   - Vận dụng: Tìm `k = 5` trên cùng mảng `a` → dãy `mid` là `3, 1`, đầu ra `1`.
+
+7. **Bài 7 (`tc-sel-sort`) – Tin 11 CS (Thuật toán Sắp xếp chọn – Selection Sort)**:
+   - Mã Python:
+     ```python
+     a = [29, 10, 14, 37]
+     for i in range(3):
+         m = i
+         for j in range(i + 1, 4):
+             if a[j] < a[m]: m = j
+         a[i], a[m] = a[m], a[i]
+     print(a)
+     ```
+   - Cột biến: `i`, `m (vị trí min)`, `Danh sách a sau hoán đổi`.
+   - 4 mốc điểm dừng:
+     - Mốc 0: `-, -, [29, 10, 14, 37]`
+     - Mốc 1 (`i = 0`): `0, 1, [10, 29, 14, 37]`
+     - Mốc 2 (`i = 1`): `1, 2, [10, 14, 29, 37]`
+     - Mốc 3 (`i = 2`): `2, 2, [10, 14, 29, 37]`
+   - Đầu ra chuẩn: `[10, 14, 29, 37]`.
+   - Vận dụng: Nếu mảng đầu vào là `[15, 30, 10, 20]`, ngay sau lượt `i = 0` thì `m = 2` và mảng trở thành `[10, 30, 15, 20]`.
+
+---
+
+## 5. CƠ CHẾ SO KHỚP VẾT, RUBRIC 10 ĐIỂM VÀ TÀI LIỆU IN
+
+5.1. **Hàm chuẩn hóa & so khớp (`normalizeTraceVal`, `isValueMatch`)**:
+   - Bỏ khoảng trắng thừa đầu/cuối.
+   - Chấp nhận các cách ghi giá trị trống tương đương: `"-"`, `"—"`, `"–"`, `"chưa có"`, `"none"` đều chuẩn hóa về `"-"`.
+   - Chuẩn hóa khoảng trắng trong danh sách/mảng: `"[10,29,14,37]"`, `"[10, 29, 14, 37]"` hoặc `"10, 29, 14, 37"` đều được công nhận khớp với `"[10, 29, 14, 37]"`.
+
+5.2. **Rubric 10 điểm (`src/rubric.ts`)**:
+   - **Tiêu chí 1 – Điền trạng thái biến tại các điểm dừng (Tối đa 4 điểm)**: Chia điểm theo tỷ lệ số mốc đúng (0 đến 4 điểm, bước 0.5) thay vì chấm tất cả hoặc không có gì.
+   - **Tiêu chí 2 – Dự đoán đầu ra cuối cùng (Tối đa 2 điểm)**: Đúng hoàn toàn 2 điểm; nhầm sang dãy giá trị trung gian 1 điểm; sai 0 điểm.
+   - **Tiêu chí 3 – Giải thích đúng thứ tự và quy tắc thực hiện lệnh (Tối đa 2 điểm)**: Giải thích rõ cận dừng và quy tắc dùng giá trị cũ/mới của phép gán.
+   - **Tiêu chí 4 – Phát hiện và sửa bước sai đầu tiên (Tối đa 2 điểm)**: Chỉ đúng bước sai đầu tiên, sửa lại bảng và giải thích nguyên nhân. **Đặc biệt**: Nếu dự đoán ban đầu hoàn toàn đúng (`actualFirstWrong === 'none'`), học sinh chọn *"Không có bước sai"* và giải thích vì sao vết đúng thì vẫn đạt tối đa 2 điểm (không bắt buộc tạo lỗi giả).
+   - Có nút **"Điền điểm gợi ý cho Tiêu chí 1 & 2 từ kết quả đối chiếu"** để hỗ trợ giáo viên chấm nhanh.
+
+5.3. **Tài liệu in & Bộ thẻ vết úp–lật (`src/pages/PrintDocs.tsx`)**:
+   - Khi thiếu máy tính, giáo viên có thể in:
+     1. **Phiếu A & Phiếu B** theo từng bài tập (có in sẵn đoạn mã Python và bảng cột biến tương ứng).
+     2. **Bộ thẻ vết cắt rời (Flashcards úp–lật)**: Mỗi mốc điểm dừng là một thẻ có viền nét đứt để cắt rời; mặt/phần trên ghi tên mốc và câu hỏi gợi ý, phần dưới ghi trạng thái chuẩn và lời giải thích để học sinh úp thẻ xuống bàn và lật từng thẻ theo đúng tiến trình.
+     3. **Bảng Rubric 10 điểm** và **Mẫu tổng hợp sau dạy**.
+
+---
+
+## 6. YÊU CẦU KIỂM THỬ VÀ BÀN GIAO
+
+1. Viết đầy đủ bộ kiểm thử đơn vị trong `tests/logic.test.ts` (dùng Vitest) kiểm tra:
+   - Vết chuẩn `0–1–3–6` và đầu ra `6` (vận dụng `10`) của Bài mẫu 1.
+   - Chặn mở vết khi `predictionLocked === false` và kiểm tra hàm `checkReadyToLockPrediction`.
+   - Hàm `detectActualFirstWrongStepId` phát hiện chính xác bước đầu tiên trả lời sai (`s2`) hoặc trả về `'none'` khi học sinh dự đoán đúng cả 4 mốc.
+   - Hàm `suggestAutoScores` tính đúng điểm gợi ý theo Rubric.
+   - Lưu trữ `Store` chống ghi đè bằng `rev`, tự chữa lành chỉ mục `reconcile()` và xuất/nhập JSON an toàn.
+2. Chạy `npm test` và `npm run build` (`tsc --noEmit && vite build`) đảm bảo đạt 100% không có lỗi TypeScript hay lỗi đóng gói.

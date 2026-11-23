@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'prompt',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['favicon.svg', 'logo.jpg', 'avatar.jpg'],
       manifest: {
         name: 'Trace Challenge – Dự đoán đường đi của thuật toán',
         short_name: 'TraceChallenge',
@@ -23,7 +23,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,jpg,woff2}'],
         navigateFallback: '/index.html',
         cleanupOutdatedCaches: true,
       },

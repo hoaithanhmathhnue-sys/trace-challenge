@@ -1,4 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { AUTHOR_INFO } from '../auth';
 import { BUILT_IN_CHALLENGES } from '../challenges';
 import { store, useApp } from '../ctx';
 import { IndexItem, backupFileName, exportJson, parseImport } from '../storage';
@@ -350,6 +351,37 @@ export default function Home() {
             )}
           </div>
         )}
+      </section>
+
+      <section className="card author-card-home" aria-label="Thông tin Tác giả">
+        <div className="author-home-inner">
+          <img
+            src={AUTHOR_INFO.avatarUrl}
+            alt={`Giáo viên ${AUTHOR_INFO.name}`}
+            className="author-avatar-home"
+            width={76}
+            height={76}
+          />
+          <div className="author-home-text">
+            <div className="muted">Tác giả xây dựng học liệu số &amp; Biện pháp</div>
+            <h2 style={{ margin: '0.15rem 0' }}>Giáo viên: {AUTHOR_INFO.name}</h2>
+            <div>
+              <strong>{AUTHOR_INFO.school}</strong> · Địa chỉ: {AUTHOR_INFO.address}
+            </div>
+          </div>
+          <div className="author-home-actions">
+            <img
+              src={AUTHOR_INFO.logoUrl}
+              alt={`Biểu trưng ${AUTHOR_INFO.school}`}
+              className="author-logo-home"
+              width={56}
+              height={56}
+            />
+            <a className="btn small" href="#/author">
+              Xem hồ sơ Tác giả &amp; Biện pháp →
+            </a>
+          </div>
+        </div>
       </section>
     </div>
   );
